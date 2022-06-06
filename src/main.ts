@@ -45,6 +45,12 @@ function renderTasks(tasksInside: TaskInterface[]) {
     title.innerText = task.title;
     const description = document.createElement("p");
     description.innerText = task.description;
+    const container = document.createElement("div");
+    container.className = "flex justify-between";
+    const btnEdit = document.createElement("button");
+    btnEdit.className =
+      "bg-transparent hover:bg-zinc-700 text-green-700 hover:text-white py-2 px-4 mr-3 border border-green-700 hover:border-white rounded-lg";
+    btnEdit.innerText = "Edit";
     const btnDelete = document.createElement("button");
     btnDelete.innerText = "Delete";
     btnDelete.className =
@@ -57,8 +63,24 @@ function renderTasks(tasksInside: TaskInterface[]) {
       }).showToast();
       renderTasks(tasks);
     });
+    btnEdit.addEventListener("click", () => {
+      const newTitle = prompt("Enter new title", task.title);
+      const newDescription = prompt("Enter new description", task.description);
+      if (newTitle && newDescription) {
+        task.title = newTitle;
+        task.description = newDescription;
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        toastify({
+          text: "Task updated successfully",
+        }).showToast();
+        renderTasks(tasks);
+      }
+    });
+    
     header.append(title);
-    header.append(btnDelete);
+    container.append(btnEdit);
+    container.append(btnDelete);
+    header.append(container);
 
     taskElement.append(header);
     taskElement.append(description);
