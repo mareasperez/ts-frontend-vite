@@ -76,7 +76,7 @@ function renderTasks(tasksInside: TaskInterface[]) {
         renderTasks(tasks);
       }
     });
-    
+
     header.append(title);
     container.append(btnEdit);
     container.append(btnDelete);
